@@ -1,0 +1,143 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    tokenizer(sentence: String!): Tokens!
+    match_skill(sentence: String!): MatchResult!
+    match_phrases(sentence: String!): MatchResult!
+    match_tokens(sentence: String!): MatchResult!
+    spacy_meta(lang: String!): Spacy!
+    english(sentence: String!): Boolean!
+    language(sentence: String!): Language!
+    analysis(sentence: String!): Analysis!
+}
+
+type Tokens {
+    success: Boolean!
+    errors: [String]
+    token: [Token]
+    words: [String]
+}
+
+type Spacy {
+     success: Boolean!
+     lang: String
+     name: String
+     version: String
+     spacy_version: String
+     description: String
+     author: String
+     email: String
+     url: String
+     license: String
+     labels: [String]
+     tok2vec: [String]
+     tagger: [String]
+     parser: [String]
+     senter: [String]
+     ner: [String]
+     lemmatizer: [String]
+     attribute_ruler: [String]
+     pipeline: [String]
+     components: [String]
+     disabled: [String]
+}
+
+
+type RegisterResult {
+    success: Boolean!
+    errors: [String]
+}
+
+type Match{
+    match_id: String!
+    string_id: String!
+    word: String!
+}
+
+type Token {
+    text: String!
+        lemma: String!
+        pos: String!
+        tag: String!
+        dep: String!
+        shape: String
+        alpha: Boolean!
+        stop: Boolean!
+        explanation: String
+}
+
+type Language {
+    language: String!
+    isocode: String!
+    prediction: Float!
+}
+
+type Analysis {
+    language: String!
+    noun_phrase: [String!]
+    named_entities: [Entity]
+    tokens: [Token!]
+    translation: String!
+    sentence: String!
+}
+
+type Entity {
+    text: String!
+    label: String!
+}
+
+
+type Pattern{
+    domain: String
+    rule:[String]
+}
+
+type MatchResult {
+    success: Boolean!
+    sentence: String!
+    translation: String!
+    lang: String
+    domain: String
+    call_back: String
+    errors: [String]
+    matches: [Match]
+}
+
+type Mutation {
+    register_skill(domain: String! call_back: String! lang: String! matcher: [Matcher!]) : MatcherResponse!
+    register_domain(domain: String! lang: String! phrases: [String!]) : MatcherResponse!
+}
+
+type MatcherResponse {
+    success: Boolean!
+    domain: String!
+    lang: String!
+    call_back: String
+    rules: Int
+    errors: [String]
+    rule: [Pattern]
+}
+
+input Matcher {
+    ORTH: String
+    TEXT: String
+    LOWER: String
+    POS: String
+    TAG: String
+    MORPH: String
+    DEP: String
+    LEMMA: String
+    ENT_TYPE: String
+    OP: String
+    LIKE_NUM: Boolean
+    IS_ALPHA: Boolean
+    IS_ASCII: Boolean
+    IS_DIGIT: Boolean
+    LIKE_URL: Boolean
+    LIKE_EMAIL: Boolean
+}
+
+

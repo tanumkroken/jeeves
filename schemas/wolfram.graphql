@@ -1,0 +1,39 @@
+extend type Query {
+    wolfram_query(question: String!): WolframResult!
+    wolfram_voice(question: String!): WolframVoice!
+    wolfram_check(question: String!): WolframCheck!
+    wolfram_conversation(question: String!, conversationid:String, s:String): WolframConversation!
+}
+type WolframPod{
+    title: String!
+    result: String
+}
+
+type WolframResult {
+    question: String!
+    success: Boolean!
+    voice: String
+    numpods: Int
+    pods: [WolframPod]
+}
+
+type WolframVoice{
+    question: String!
+    success: Boolean!
+    voice: String
+}
+
+type WolframConversation{
+    question: String!
+    success: Boolean!
+    error: String
+    result: String
+    conversationid: String
+    s: String
+}
+
+type WolframCheck{
+    question: String!
+    success: Boolean!
+    domain: String
+}
